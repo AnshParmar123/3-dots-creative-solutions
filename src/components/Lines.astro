@@ -1,0 +1,18 @@
+---
+// Display type that rises from behind a mask, one line at a time.
+// Lines are authored explicitly so the stagger is deliberate rather than
+// whatever the browser happens to wrap to.
+const { lines = [], class: className = "", delay = 0 } = Astro.props;
+---
+
+<span class={`lines ${className}`}>
+  {lines.map((line, index) => {
+    const text = typeof line === "string" ? line : line.text;
+    const alt = typeof line === "string" ? false : line.alt;
+    return (
+      <span class="ln">
+        <i class={alt ? "alt" : ""} style={`--d: ${delay + index * 95}ms`}>{text}</i>
+      </span>
+    );
+  })}
+</span>

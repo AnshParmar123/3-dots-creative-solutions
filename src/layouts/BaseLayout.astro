@@ -1,0 +1,82 @@
+---
+import Header from "../components/Header.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import Lightbox from "../components/Lightbox.astro";
+import Motion from "../components/Motion.astro";
+import { contact } from "../data/site";
+import "../styles/global.css";
+
+const {
+  title = "3DOTS Creative Solutions",
+  description =
+    "3DOTS Creative Solutions is a Mumbai advertising agency for health care and OTC brands — big-agency craft at rates a growing brand can afford.",
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://3dotscreative.com");
+const ogImage = new URL("/images/og.jpg", Astro.site ?? "https://3dotscreative.com");
+
+// Helps Google show the studio as a local business rather than a bare page.
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "3DOTS Creative Solutions",
+  description,
+  url: canonical.origin,
+  image: ogImage.href,
+  email: contact.email,
+  telephone: contact.phones.map((phone) => phone.href.replace("tel:", "")),
+  founder: { "@type": "Person", name: contact.name, jobTitle: contact.role },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Swapnapurti CHSL, P-6, Flat-303, Nupur Nagar",
+    addressLocality: "Mira Road (E), Thane",
+    postalCode: "401107",
+    addressRegion: "Maharashtra",
+    addressCountry: "IN",
+  },
+  areaServed: "IN",
+  knowsAbout: ["Pharmaceutical advertising", "OTC advertising", "Brand identity", "Packaging design"],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#070c18" />
+    <link rel="canonical" href={canonical.href} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="3DOTS Creative Solutions" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon-512.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script is:inline>document.documentElement.classList.add("js");</script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <Lightbox />
+    <Motion />
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import Lines from "../components/Lines.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import WorkGrid from "../components/WorkGrid.astro";
+import { allWork, contact } from "../data/site";
+
+// An empty screen is an invitation to act — show work rather than an apology.
+const strays = allWork.filter((item) => item.portrait).slice(0, 5);
+---
+
+<BaseLayout
+  title="Page not found — 3DOTS Creative Solutions"
+  description="That page does not exist. Head to the work, the services or the contact page."
+>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="display"><Lines lines={["This page", "never ran."]} /></h1>
+      <p class="lead">
+        The link is broken or the page has moved. The work is still here.
+      </p>
+      <div class="btns">
+        <a class="btn" href="/work/">See the work</a>
+        <a class="btn btn--ghost" href="/">Back to the start</a>
+        <a class="btn btn--ghost" href={`mailto:${contact.email}`}>Report the link</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: clamp(28px, 4vw, 52px);">
+    <div class="wrap">
+      <WorkGrid items={strays} eager={5} />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,199 @@
+---
+// Every behaviour here is an enhancement: with JS off or reduced motion on,
+// the page is fully readable and every control still works.
+---
+
+<div class="cursor" data-cursor aria-hidden="true">VIEW</div>
+
+<script is:inline>
+  (() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    /* ---- 1. page-load sequence -------------------------------------- */
+    const start = () => document.documentElement.classList.add("is-loaded");
+    if (document.fonts && document.fonts.ready) {
+      // Wait for the display face so masked lines don't reflow mid-reveal.
+      document.fonts.ready.then(() => requestAnimationFrame(start));
+      setTimeout(start, 900); // never let a slow font block the page
+    } else {
+      requestAnimationFrame(start);
+    }
+
+    /* ---- 2. scroll reveals ------------------------------------------ */
+    const reveals = document.querySelectorAll("[data-reveal]");
+    if (reduced.matches) {
+      reveals.forEach((node) => node.classList.add("in"));
+    } else if (reveals.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
+      );
+      reveals.forEach((node) => io.observe(node));
+    }
+
+    /* ---- 3. counting stats ------------------------------------------ */
+    const counters = document.querySelectorAll("[data-count]");
+    if (counters.length && reduced.matches) {
+      // Skip the animation but never leave the placeholder zero on screen.
+      counters.forEach((el) => (el.textContent = el.dataset.count));
+    } else if (counters.length) {
+      const run = (el) => {
+        const target = Number(el.dataset.count);
+        const duration = 1500;
+        // Hero stats fade in on a delay; start counting as they arrive so the
+        // tick-up is actually seen rather than finishing behind an opacity 0.
+        const wait = Number(el.dataset.countDelay || 0);
+        const t0 = performance.now() + wait;
+        const tick = (now) => {
+          if (now < t0) return requestAnimationFrame(tick);
+          const p = Math.min(1, (now - t0) / duration);
+          const eased = 1 - Math.pow(1 - p, 4); // easeOutQuart
+          el.textContent = String(Math.round(target * eased));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            run(entry.target);
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.6 },
+      );
+      counters.forEach((el) => io.observe(el));
+    }
+
+    /* ---- 4. hero parallax ------------------------------------------- */
+    const wall = document.querySelector("[data-parallax]");
+    if (wall && !reduced.matches) {
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (y < window.innerHeight * 1.2) {
+            wall.style.setProperty("--py", `${y * 0.16}px`);
+          }
+          ticking = false;
+        });
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
+
+    /* ---- 4b. header condense ---------------------------------------- */
+    const hdr = document.querySelector(".hdr");
+    if (hdr) {
+      const sync = () => hdr.classList.toggle("is-stuck", window.scrollY > 90);
+      sync();
+      window.addEventListener("scroll", sync, { passive: true });
+    }
+
+    /* ---- 5. FLIP filter --------------------------------------------- */
+    const bar = document.querySelector("[data-filters]");
+    if (bar) {
+      const grid = document.querySelector("[data-grid]");
+      const tiles = Array.from(grid.querySelectorAll(".tile"));
+
+      bar.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-filter]");
+        if (!button) return;
+
+        const wanted = button.dataset.filter;
+        bar.querySelectorAll("[data-filter]").forEach((other) =>
+          other.setAttribute("aria-pressed", String(other === button)),
+        );
+
+        const shouldShow = (tile) =>
+          wanted === "all" || tile.dataset.category === wanted;
+
+        if (reduced.matches) {
+          tiles.forEach((tile) =>
+            tile.classList.toggle("is-hidden", !shouldShow(tile)),
+          );
+          return;
+        }
+
+        // FIRST: remember where everything currently sits.
+        const before = new Map();
+        tiles.forEach((tile) => {
+          if (!tile.classList.contains("is-hidden")) {
+            before.set(tile, tile.getBoundingClientRect());
+          }
+        });
+
+        // LAST: apply the filter.
+        tiles.forEach((tile) => {
+          tile.classList.remove("is-moving", "is-entering");
+          tile.style.transform = "";
+          tile.classList.toggle("is-hidden", !shouldShow(tile));
+        });
+
+        // INVERT + PLAY
+        tiles.forEach((tile) => {
+          if (tile.classList.contains("is-hidden")) return;
+          const now = tile.getBoundingClientRect();
+          const then = before.get(tile);
+
+          if (!then) {
+            tile.classList.add("is-entering");
+            return;
+          }
+
+          const dx = then.left - now.left;
+          const dy = then.top - now.top;
+          if (!dx && !dy) return;
+
+          tile.style.transform = `translate(${dx}px, ${dy}px)`;
+          requestAnimationFrame(() => {
+            tile.classList.add("is-moving");
+            tile.style.transform = "";
+          });
+        });
+      });
+
+      grid.addEventListener("transitionend", (event) => {
+        if (event.propertyName === "transform") {
+          event.target.classList?.remove("is-moving");
+        }
+      });
+    }
+
+    /* ---- 6. VIEW cursor --------------------------------------------- */
+    const dot = document.querySelector("[data-cursor]");
+    if (dot && window.matchMedia("(pointer: fine)").matches && !reduced.matches) {
+      let x = -100;
+      let y = -100;
+      let cx = -100;
+      let cy = -100;
+      let active = false;
+
+      document.addEventListener("pointermove", (event) => {
+        x = event.clientX;
+        y = event.clientY;
+        const over = event.target.closest("[data-src]");
+        if (Boolean(over) !== active) {
+          active = Boolean(over);
+          dot.classList.toggle("is-on", active);
+        }
+      });
+
+      const loop = () => {
+        cx += (x - cx) * 0.18;
+        cy += (y - cy) * 0.18;
+        dot.style.transform = `translate3d(${cx - 37}px, ${cy - 37}px, 0)`;
+        requestAnimationFrame(loop);
+      };
+      requestAnimationFrame(loop);
+    }
+  })();
+</script>

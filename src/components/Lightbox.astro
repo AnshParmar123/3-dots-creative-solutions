@@ -1,0 +1,86 @@
+---
+// Global viewer. Any [data-src] tile on the page opens it.
+---
+
+<div class="lb" data-lb role="dialog" aria-modal="true" aria-label="Artwork viewer" hidden>
+  <button class="lb__close" type="button" data-lb-close>Close · Esc</button>
+  <button class="lb__nav lb__nav--prev" type="button" data-lb-prev aria-label="Previous piece">&#8249;</button>
+  <figure class="lb__fig">
+    <img data-lb-img src="" alt="" />
+    <figcaption class="lb__cap" data-lb-cap></figcaption>
+  </figure>
+  <button class="lb__nav lb__nav--next" type="button" data-lb-next aria-label="Next piece">&#8250;</button>
+</div>
+
+<script is:inline>
+  (() => {
+    const box = document.querySelector("[data-lb]");
+    if (!box) return;
+
+    const image = box.querySelector("[data-lb-img]");
+    const caption = box.querySelector("[data-lb-cap]");
+    let visible = [];
+    let cursor = 0;
+    let lastFocused = null;
+
+    const show = (index) => {
+      if (!visible.length) return;
+      cursor = (index + visible.length) % visible.length;
+      const tile = visible[cursor];
+      image.src = tile.dataset.src;
+      image.alt = tile.dataset.caption;
+      caption.textContent = tile.dataset.caption;
+
+      // These are low-resolution scans; never blow them up past 1:1, a smaller
+      // sharp image beats a large mushy one.
+      image.style.maxWidth = tile.dataset.w ? `${tile.dataset.w}px` : "";
+      image.style.maxHeight = tile.dataset.h
+        ? `min(74svh, ${tile.dataset.h}px)`
+        : "74svh";
+    };
+
+    const open = (tile) => {
+      visible = Array.from(document.querySelectorAll("[data-src]")).filter(
+        (node) => !node.classList.contains("is-hidden"),
+      );
+      const start = visible.indexOf(tile);
+      if (start === -1) return;
+
+      lastFocused = document.activeElement;
+      box.hidden = false;
+      requestAnimationFrame(() => box.classList.add("is-open"));
+      document.body.style.overflow = "hidden";
+      show(start);
+      box.querySelector("[data-lb-close]").focus();
+    };
+
+    const close = () => {
+      box.classList.remove("is-open");
+      document.body.style.overflow = "";
+      setTimeout(() => {
+        box.hidden = true;
+        image.src = "";
+      }, 260);
+      if (lastFocused) lastFocused.focus();
+    };
+
+    document.addEventListener("click", (event) => {
+      const tile = event.target.closest("[data-src]");
+      if (tile) {
+        open(tile);
+        return;
+      }
+      if (event.target.closest("[data-lb-close]")) return close();
+      if (event.target.closest("[data-lb-prev]")) return show(cursor - 1);
+      if (event.target.closest("[data-lb-next]")) return show(cursor + 1);
+      if (event.target === box) close();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (box.hidden) return;
+      if (event.key === "Escape") close();
+      if (event.key === "ArrowLeft") show(cursor - 1);
+      if (event.key === "ArrowRight") show(cursor + 1);
+    });
+  })();
+</script>

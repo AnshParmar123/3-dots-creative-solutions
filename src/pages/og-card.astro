@@ -1,0 +1,108 @@
+---
+// Rendered once at 1200x630 and captured to /images/og.jpg by `og.mjs`.
+// Not linked from anywhere; kept in the repo so the card can be regenerated
+// if the branding changes.
+import { heroWall } from "../data/site";
+import "../styles/global.css";
+
+const strip = heroWall.slice(0, 12);
+---
+
+<html lang="en">
+  <head><meta charset="UTF-8" /><title>OG card</title></head>
+  <body class="og">
+    <div class="og__wall">
+      {strip.map((src) => <img src={src} alt="" />)}
+    </div>
+    <div class="og__veil"></div>
+
+    <div class="og__body">
+      <span class="og__reg"><i></i><i></i><i></i></span>
+      <p class="og__eyebrow">Mumbai · Health care &amp; OTC</p>
+      <h1 class="og__title">Big-agency work.<br /><em>Without the big agency.</em></h1>
+      <p class="og__foot">3DOTS Creative Solutions &nbsp;·&nbsp; 59 pieces &nbsp;·&nbsp; 15 brands</p>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  body.og {
+    height: 630px;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    width: 1200px;
+  }
+  .og__wall {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    inset: -6px;
+    position: absolute;
+  }
+  .og__wall img {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+  }
+  .og__veil {
+    background: linear-gradient(
+      100deg,
+      #070c18 42%,
+      rgba(7, 12, 24, 0.86) 62%,
+      rgba(7, 12, 24, 0.5) 100%
+    );
+    inset: 0;
+    position: absolute;
+  }
+  .og__body {
+    inset: 0;
+    padding: 62px 64px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .og__reg {
+    display: flex;
+    gap: 9px;
+    margin-bottom: 26px;
+  }
+  .og__reg i {
+    background: #3fa69c;
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+  }
+  .og__eyebrow {
+    color: #3fa69c;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 17px;
+    letter-spacing: 0.2em;
+    margin: 0 0 18px;
+    text-transform: uppercase;
+  }
+  .og__title {
+    color: #dce3f2;
+    font-family: "Archivo Variable", sans-serif;
+    font-size: 82px;
+    font-stretch: 118%;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 0.92;
+    margin: 0;
+  }
+  .og__title em {
+    color: #93aade;
+    font-style: normal;
+  }
+  .og__foot {
+    color: #7a88a8;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 17px;
+    letter-spacing: 0.14em;
+    margin: 34px 0 0;
+    text-transform: uppercase;
+  }
+</style>

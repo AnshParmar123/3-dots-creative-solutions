@@ -1,0 +1,8 @@
+---
+// The agency's own three-dot mark, used as a print registration target.
+const { live = false, class: className = "" } = Astro.props;
+---
+
+<span class={`reg ${live ? "reg--live" : ""} ${className}`} aria-hidden="true">
+  <i></i><i></i><i></i>
+</span>

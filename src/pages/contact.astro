@@ -1,0 +1,212 @@
+---
+import Lines from "../components/Lines.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RegMark from "../components/RegMark.astro";
+import { contact, formEndpoint } from "../data/site";
+
+const mapQuery = encodeURIComponent(contact.address.join(", "));
+const waText = encodeURIComponent(
+  "Hello 3DOTS, I'd like to discuss a project for my brand.",
+);
+---
+
+<BaseLayout
+  title="Contact — 3DOTS Creative Solutions"
+  description="Call Awdhut Sawant on +91 98693 70124, message on WhatsApp, or write to creativesolution3dots@gmail.com. Studio at Mira Road (E), Thane."
+>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow">Contact</p>
+      <h1 class="display"><Lines lines={["Tell us what", "the brand needs."]} /></h1>
+      <p class="lead">
+        You will reach the creative director, not a queue. WhatsApp is usually
+        the fastest reply.
+      </p>
+      <div class="btns">
+        <a
+          class="btn"
+          href={`https://wa.me/${contact.whatsapp}?text=${waText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >Message on WhatsApp</a>
+        <a class="btn btn--ghost" href={contact.phones[0].href}>
+          Call {contact.phones[0].display}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: clamp(28px, 4vw, 52px);">
+    <div class="wrap">
+      <div class="cx">
+        <div class="cx__block" data-reveal>
+          <p class="eyebrow">Call</p>
+          <p class="cx__val">
+            {contact.phones.map((phone) => (
+              <span><a href={phone.href}>{phone.display}</a></span>
+            ))}
+          </p>
+          <p class="cx__note">{contact.name} · {contact.role}</p>
+        </div>
+
+        <div class="cx__block" data-reveal>
+          <p class="eyebrow">Write</p>
+          <p class="cx__val">
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </p>
+          <p class="cx__note">Send the category, the audience and the deadline.</p>
+        </div>
+
+        <div class="cx__block" data-reveal>
+          <p class="eyebrow">Studio</p>
+          <address class="cx__val">
+            {contact.address.map((line) => <span>{line}</span>)}
+          </address>
+          <p class="cx__note">
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >Open in Maps →</a>
+          </p>
+        </div>
+
+        <div class="cx__block" data-reveal>
+          <p class="eyebrow">Practices</p>
+          <p class="cx__val">Health care<span>OTC &amp; corporate</span></p>
+          <p class="cx__note">Identity, packaging, press, outdoor, film.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap">
+      <div class="rule" data-reveal><span class="mono">Or send it in writing</span><RegMark /></div>
+
+      <div class="brief">
+        <div data-reveal>
+          <h2 class="h1"><Lines lines={["Start a brief"]} /></h2>
+          <p class="lead">
+            The more you can say about the audience and the deadline, the more
+            useful the first reply will be.
+          </p>
+
+          <ol class="steps">
+            <li><span>01</span>You send the brief</li>
+            <li><span>02</span>The director calls you back, usually same day</li>
+            <li><span>03</span>You get a scope and a quote before any work starts</li>
+          </ol>
+        </div>
+
+        <form
+          class="form"
+          data-brief
+          method="POST"
+          action={formEndpoint || undefined}
+          novalidate
+        >
+          <label>
+            <span>Your name</span>
+            <input name="name" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Brand or company</span>
+            <input name="company" autocomplete="organization" />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" />
+          </label>
+          <label>
+            <span>What do you need made?</span>
+            <textarea name="brief" required placeholder="Category, audience, formats, deadline."></textarea>
+          </label>
+
+          {/* Bots fill this; people never see it. */}
+          <input type="text" name="_company_url" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="btns" style="margin-top: 6px;">
+            <button class="btn" type="submit">Send the brief</button>
+          </div>
+
+          <p class="form__status" data-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ email: contact.email, endpoint: formEndpoint }}>
+    (() => {
+      const form = document.querySelector("[data-brief]");
+      if (!form) return;
+      const status = form.querySelector("[data-status]");
+
+      const fail = (message) => {
+        status.textContent = message;
+        status.dataset.state = "error";
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (form.querySelector('[name="_company_url"]').value) return;
+
+        const missing = Array.from(form.querySelectorAll("[required]")).find(
+          (field) => !field.value.trim(),
+        );
+        if (missing) {
+          missing.focus();
+          return fail("Please fill in your name, email and what you need made.");
+        }
+
+        const emailField = form.querySelector('[name="email"]');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
+          emailField.focus();
+          return fail("That email address does not look right.");
+        }
+
+        const data = new FormData(form);
+
+        // No endpoint configured yet — fall back to the visitor's mail client.
+        if (!endpoint) {
+          const body = [...data.entries()]
+            .filter(([key]) => !key.startsWith("_"))
+            .map(([key, value]) => `${key}: ${value}`)
+            .join("\n");
+          window.location.href =
+            `mailto:${email}?subject=${encodeURIComponent("New brief from the website")}` +
+            `&body=${encodeURIComponent(body)}`;
+          status.dataset.state = "ok";
+          status.textContent = "Opening your email app…";
+          return;
+        }
+
+        const button = form.querySelector('button[type="submit"]');
+        button.disabled = true;
+        status.dataset.state = "";
+        status.textContent = "Sending…";
+
+        try {
+          const response = await fetch(endpoint, {
+            method: "POST",
+            body: data,
+            headers: { Accept: "application/json" },
+          });
+          if (!response.ok) throw new Error(String(response.status));
+          form.reset();
+          status.dataset.state = "ok";
+          status.textContent = "Thanks — the brief is in. You'll hear back shortly.";
+        } catch {
+          fail(`Could not send. Please write to ${email} instead.`);
+        } finally {
+          button.disabled = false;
+        }
+      });
+    })();
+  </script>
+</BaseLayout>

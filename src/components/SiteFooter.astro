@@ -1,0 +1,40 @@
+---
+import RegMark from "./RegMark.astro";
+import { agency, contact } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <div>
+        <img class="ftr__logo brand-logo" src="/images/3dots-mark.png" alt="3DOTS Creative Solution" width="560" height="165" />
+        <p class="ftr__promise">{agency.promise}</p>
+        <address>
+          {contact.address.map((line) => <span>{line}</span>)}
+        </address>
+      </div>
+
+      <div class="ftr__col">
+        <p class="eyebrow">Reach</p>
+        {contact.phones.map((phone) => <a href={phone.href}>{phone.display}</a>)}
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+
+      <div class="ftr__col">
+        <p class="eyebrow">Pages</p>
+        <a href="/work/">Work</a>
+        <a href="/services/">Services</a>
+        <a href="/about/">Studio</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+
+    <div class="ftr__base">
+      <span class="mono">© {year} 3DOTS Creative Solutions</span>
+      <RegMark live />
+      <span class="mono">{contact.name} · {contact.role}</span>
+    </div>
+  </div>
+</footer>

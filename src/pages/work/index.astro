@@ -1,0 +1,40 @@
+---
+import Lines from "../../components/Lines.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorkGrid from "../../components/WorkGrid.astro";
+import RegMark from "../../components/RegMark.astro";
+import { allWork, contact, workSections } from "../../data/site";
+---
+
+<BaseLayout
+  title="Work — 3DOTS Creative Solutions"
+  description="59 pieces of health care and OTC advertising from 3DOTS Creative Solutions: detailers, packs, press ads, hoardings and public-interest campaigns."
+>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow">Work · {allWork.length} pieces</p>
+      <h1 class="display"><Lines lines={["Everything", "we have run."]} /></h1>
+      <p class="lead">
+        {workSections[0].items.length} health care pieces and {workSections[1].items.length} for
+        OTC and corporate. Filter by practice, click any piece to open it.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: clamp(36px, 5vw, 64px);">
+    <div class="wrap">
+      <WorkGrid items={allWork} filters eager={8} />
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Next</span><RegMark live /></div>
+      <h2 class="h1"><Lines lines={["Want something like this", "for your brand?"]} /></h2>
+      <div class="btns">
+        <a class="btn" href="/contact/">Start a brief</a>
+        <a class="btn btn--ghost" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

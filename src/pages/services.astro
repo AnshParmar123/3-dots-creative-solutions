@@ -1,0 +1,93 @@
+---
+import Lines from "../components/Lines.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import RegMark from "../components/RegMark.astro";
+import { contact, piecesFor, serviceGroups } from "../data/site";
+
+const deliverables = serviceGroups.reduce(
+  (total, group) => total + group.items.length,
+  0,
+);
+
+const groups = serviceGroups.map((group) => ({
+  ...group,
+  pieces: piecesFor(group.evidence),
+}));
+---
+
+<BaseLayout
+  title="Services — 3DOTS Creative Solutions"
+  description="Corporate identity, brand identity, stationery, concept creation, outdoor, collateral, press and film — everything 3DOTS Creative Solutions produces."
+>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow">Services · {serviceGroups.length} groups · {deliverables} deliverables</p>
+      <h1 class="display"><Lines lines={["From a logo", "to a TVC."]} /></h1>
+      <p class="lead">
+        One studio for the whole range, so the identity, the pack, the detailer
+        and the film all come out sounding like the same brand.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: clamp(28px, 4vw, 52px);">
+    <div class="wrap">
+      <div class="svcs">
+        {groups.map((group, index) => (
+          <div class="svc" id={group.slug} data-reveal>
+            <span class="svc__no">{String(index + 1).padStart(2, "0")}</span>
+
+            <div class="svc__head">
+              <h2 class="h3">{group.title}</h2>
+              <ul class="svc__items">
+                {group.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+
+            {group.pieces.length > 0 ? (
+              <div class="svc__proof">
+                {group.pieces.map((piece) => (
+                  <button
+                    class="proof"
+                    type="button"
+                    data-src={piece.src}
+                    data-caption={piece.alt}
+                    data-w={piece.w}
+                    data-h={piece.h}
+                    aria-label={`View larger: ${piece.alt}`}
+                  >
+                    <img
+                      src={piece.src}
+                      alt={piece.alt}
+                      width={piece.w}
+                      height={piece.h}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <p class="svc__none">On request — ask for samples.</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Not listed?</span><RegMark live /></div>
+      <h2 class="h1"><Lines lines={["Ask anyway."]} /></h2>
+      <p class="lead">
+        Whatever the branding or advertising need, we have the experience to
+        build it. If we are the wrong studio for it, we will say so.
+      </p>
+      <div class="btns">
+        <a class="btn" href="/contact/">Start a brief</a>
+        <a class="btn btn--ghost" href="/work/">See the work</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

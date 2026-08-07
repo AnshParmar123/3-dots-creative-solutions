@@ -1,0 +1,50 @@
+---
+const { items = [], filters = false, eager = 0 } = Astro.props;
+
+const counts = {
+  all: items.length,
+  "health-care": items.filter((item) => item.category === "health-care").length,
+  otc: items.filter((item) => item.category === "otc").length,
+};
+---
+
+{filters && (
+  <div class="filters" data-filters>
+    <button class="filter" type="button" data-filter="all" aria-pressed="true">
+      Everything <b>{counts.all}</b>
+    </button>
+    <button class="filter" type="button" data-filter="health-care" aria-pressed="false">
+      Health care <b>{counts["health-care"]}</b>
+    </button>
+    <button class="filter" type="button" data-filter="otc" aria-pressed="false">
+      OTC <b>{counts.otc}</b>
+    </button>
+  </div>
+)}
+
+<div class="grid" data-grid>
+  {items.map((item, index) => (
+    <button
+      class="tile"
+      type="button"
+      data-category={item.category}
+      data-src={item.src}
+      data-caption={item.alt}
+      data-w={item.w}
+      data-h={item.h}
+      aria-label={`View larger: ${item.alt}`}
+    >
+      <img
+        src={item.src}
+        alt={item.alt}
+        width={item.w}
+        height={item.h}
+        loading={index < eager ? "eager" : "lazy"}
+        decoding="async"
+      />
+      <span class="tile__cap"><span>{item.alt}</span></span>
+    </button>
+  ))}
+</div>
+
+{/* Filtering is handled by Motion.astro so it can animate between states. */}

@@ -1,0 +1,197 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroWall from "../components/HeroWall.astro";
+import WorkGrid from "../components/WorkGrid.astro";
+import ClientWall from "../components/ClientWall.astro";
+import RegMark from "../components/RegMark.astro";
+import Lines from "../components/Lines.astro";
+import {
+  agency,
+  allWork,
+  clients,
+  clientCount,
+  contact,
+  director,
+  serviceGroups,
+} from "../data/site";
+
+// Portrait pieces only, so the five-column masonry preview sits as a clean
+// block. The full portfolio page keeps every orientation.
+const preview = allWork.filter((item) => item.portrait).slice(0, 10);
+---
+
+<BaseLayout
+  title="3DOTS Creative Solutions — Big-agency work, without the big agency"
+  description="A Mumbai advertising agency for health care and OTC brands. 59 campaigns, 15 clients, led by a creative director with 21 years at big agencies."
+>
+  <section class="hero">
+    <HeroWall />
+
+    <div class="wrap hero__inner">
+      <p class="eyebrow hero__seq" style="--d: 240ms">Mumbai · Health care &amp; OTC</p>
+
+      <h1 class="display hero__title">
+        <Lines
+          delay={340}
+          lines={[
+            "Big-agency work.",
+            { text: "Without the", alt: true },
+            { text: "big agency.", alt: true },
+          ]}
+        />
+      </h1>
+
+      <p class="lead hero__lead hero__seq" style="--d: 780ms">
+        3DOTS Creative Solutions makes the detailers, packs, press ads and
+        hoardings that growing brands need — at rates a growing brand can
+        actually carry.
+      </p>
+
+      <div class="btns hero__seq" style="--d: 880ms">
+        <a class="btn" href="/work/">See the work</a>
+        <a class="btn btn--ghost" href="/contact/">Start a brief</a>
+      </div>
+
+      <div class="hero__meta hero__seq" style="--d: 980ms">
+        <div class="hero__stat"><b data-count-delay="1000" data-count="59">0</b><span>Pieces shipped</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>0</b><span>Client brands</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>0</b><span>Years in the room</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count="2">0</b><span>Practices</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap pitch" data-reveal>
+      <p class="pitch__q">
+        Are you a small or medium capital brand struggling to afford the
+        services of big ad agencies? <b>Tired of not getting results even after
+        paying a fortune?</b>
+      </p>
+      <div class="pitch__a body">
+        <p>
+          Our team is led by a creative director with {director.years} years inside big ad
+          agencies, so we know exactly what that money is supposed to buy. We
+          build the same standard of work for brands that cannot justify the
+          retainer.
+        </p>
+        <p>
+          One director on every job. No account layer between you and the person
+          drawing it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Selected work</span><RegMark /></div>
+      <h2 class="h1"><Lines lines={["Ten of fifty-nine"]} /></h2>
+      <p class="lead">
+        Prescription detailers and consumer campaigns, from the same studio.
+        Click any piece to see it full size.
+      </p>
+    </div>
+
+    <div class="wrap" data-reveal>
+      <WorkGrid items={preview} eager={4} />
+      <div class="btns">
+        <a class="btn btn--ghost" href="/work/">All 59 pieces</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Clients</span></div>
+      <h2 class="h1"><Lines lines={["Fifteen brands,", {text: "two practices", alt: true}]} /></h2>
+
+      <p class="eyebrow" style="margin-top: 44px;">Health care</p>
+      <ClientWall items={clients.healthcare} />
+
+      <p class="eyebrow" style="margin-top: 44px;">OTC &amp; corporate</p>
+      <ClientWall items={clients.otc} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap dir" data-reveal>
+      <div>
+        <div class="rule"><span class="mono">The studio</span></div>
+        <h2 class="h1"><Lines lines={["One draughtsman,", "five disciplines"]} /></h2>
+        <div class="body" style="margin-top: 26px;">
+          <p>
+            {director.name} was trained as a civil engineer before he was trained
+            as an artist. He then added film direction, computer graphics and
+            photography to the pile.
+          </p>
+          <p>
+            It is an unusual combination, and it shows up in the work: campaigns
+            that are built like structures, art-directed like film, and finished
+            like print.
+          </p>
+        </div>
+        <div class="btns">
+          <a class="btn btn--ghost" href="/about/">More about the studio</a>
+        </div>
+      </div>
+
+      <div class="dir__card">
+        <figure class="dir__photo">
+          <img
+            src={director.photo.src}
+            alt={`${director.name}, creative director of 3DOTS Creative Solutions`}
+            width={director.photo.w}
+            height={director.photo.h}
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div>
+          <h3 class="h3">{director.name}</h3>
+          <p class="mono" style="color: var(--muted); margin: 8px 0 0;">{director.role}</p>
+        </div>
+        <ul class="quals">
+          {director.qualifications.map((item, index) => (
+            <li><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Services</span></div>
+      <h2 class="h1"><Lines lines={["From a logo", "to a TVC"]} /></h2>
+      <div class="svcs">
+        {serviceGroups.map((group, index) => (
+          <div class="svc">
+            <span class="svc__no">{String(index + 1).padStart(2, "0")}</span>
+            <h3 class="h3">{group.title}</h3>
+            <ul class="svc__items">
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Next</span><RegMark live /></div>
+      <h2 class="display"><Lines lines={["Tell us what", "the brand needs."]} /></h2>
+      <p class="lead">
+        Call the director directly. No form to chase, no account manager to get
+        past.
+      </p>
+      <div class="btns">
+        <a class="btn" href={`tel:${contact.phones[0].href.replace("tel:", "")}`}>
+          {contact.phones[0].display}
+        </a>
+        <a class="btn btn--ghost" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

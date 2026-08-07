@@ -1,0 +1,23 @@
+---
+import { heroWall } from "../data/site";
+
+// Five columns, each doubled so the vertical drift loops seamlessly.
+const columns = [0, 1, 2, 3, 4].map((col) =>
+  heroWall.filter((_, index) => index % 5 === col),
+);
+---
+
+{/* Outer layer carries the scroll parallax, inner carries the load pull-back,
+    so the two transforms never fight over the same property. */}
+<div class="hero__parallax" data-parallax aria-hidden="true">
+  <div class="hero__wall">
+    {columns.map((images, index) => (
+      <div class={`hero__col ${index % 2 === 0 ? "hero__col--up" : "hero__col--down"}`}>
+        {[...images, ...images].map((src) => (
+          <img src={src} alt="" loading="eager" decoding="async" />
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+<div class="hero__veil" aria-hidden="true"></div>

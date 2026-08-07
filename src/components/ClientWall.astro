@@ -1,0 +1,11 @@
+---
+const { items = [] } = Astro.props;
+---
+
+<ul class="logos">
+  {items.map((client) => (
+    <li>
+      <img src={client.logo} alt={client.name} loading="lazy" decoding="async" />
+    </li>
+  ))}
+</ul>

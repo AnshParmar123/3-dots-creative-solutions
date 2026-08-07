@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /og-card/
+
+Sitemap: https://3dotscreative.com/sitemap-index.xml

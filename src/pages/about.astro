@@ -1,0 +1,221 @@
+---
+import Lines from "../components/Lines.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ClientWall from "../components/ClientWall.astro";
+import RegMark from "../components/RegMark.astro";
+import {
+  clients,
+  clientCount,
+  contact,
+  director,
+  healthcareWork,
+  otcWork,
+  piecesFor,
+} from "../data/site";
+
+const waText = encodeURIComponent(
+  "Hello 3DOTS, I'd like to discuss a project for my brand.",
+);
+
+const practices = [
+  {
+    title: "Health care",
+    count: healthcareWork.length,
+    copy:
+      "Detailers, visual aids, leave-behinds, conference material and day campaigns for prescription brands. Built to survive a two-minute conversation with a doctor who has already heard the claim.",
+    pieces: piecesFor([
+      "hc-linmox",
+      "hc-macalvit",
+      "hc-es-ulcizone",
+      "hc-doctors-day",
+    ]),
+  },
+  {
+    title: "OTC & corporate",
+    count: otcWork.length,
+    copy:
+      "Press, packaging, outdoor and public-interest work for consumer brands, banks and institutions. Built for the shelf, the hoarding and the front page.",
+    pieces: piecesFor([
+      "otc-colgate-total",
+      "otc-bisleri",
+      "otc-maggi",
+      "otc-no-tobacco-day",
+    ]),
+  },
+];
+---
+
+<BaseLayout
+  title="Studio — 3DOTS Creative Solutions"
+  description="3DOTS Creative Solutions is led by Awdhut Sawant, an award-winning creative director with 21 years in advertising and film."
+>
+  <section class="phero">
+    <div class="wrap">
+      <p class="eyebrow">The studio</p>
+      <h1 class="display"><Lines lines={["Senior hands", "on every job."]} /></h1>
+      <p class="lead">
+        3DOTS Creative Solutions exists for brands that cannot justify a big
+        agency retainer but still need the work to argue like one.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap dir" data-reveal>
+      <div>
+        <div class="rule"><span class="mono">Director</span></div>
+        <h2 class="h1">{director.name}</h2>
+        <div class="body" style="margin-top: 26px;">
+          {director.bio.map((para) => <p>{para}</p>)}
+        </div>
+
+        <div class="dir__reach">
+          <p class="eyebrow">Reach him directly</p>
+          <p class="cx__val">
+            <a href={contact.phones[0].href}>{contact.phones[0].display}</a>
+          </p>
+          <div class="btns" style="margin-top: 22px;">
+            <a
+              class="btn"
+              href={`https://wa.me/${contact.whatsapp}?text=${waText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >Message on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dir__card">
+        <figure class="dir__photo">
+          <img
+            src={director.photo.src}
+            alt={`${director.name}, creative director of 3DOTS Creative Solutions`}
+            width={director.photo.w}
+            height={director.photo.h}
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div>
+          <h3 class="h3">Qualifications</h3>
+          <p class="mono" style="color: var(--muted); margin: 8px 0 0;">
+            {director.years} years · advertising &amp; film
+          </p>
+        </div>
+        <ul class="quals">
+          {director.qualifications.map((item, index) => (
+            <li><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--band">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">How we work</span></div>
+      <h2 class="h1"><Lines lines={["Concept to execution,", "in one room"]} /></h2>
+
+      <div class="svcs">
+        <div class="svc">
+          <span class="svc__no">01</span>
+          <h3 class="h3">The idea comes first</h3>
+          <div class="body">
+            <p>
+              In advertising it pays to think outside the box and find the idea
+              that actually catches the audience. Meeting the client's need is
+              the priority — from concept through execution, the team develops
+              and runs one plan rather than handing you a deck.
+            </p>
+          </div>
+        </div>
+
+        <div class="svc">
+          <span class="svc__no">02</span>
+          <h3 class="h3">Designers own the whole look</h3>
+          <div class="body">
+            <p>
+              Our designers take full responsibility for the entire look of each
+              ad, so every element is considered rather than assembled. We stick
+              to deadlines without losing sight of the final goal.
+            </p>
+          </div>
+        </div>
+
+        <div class="svc">
+          <span class="svc__no">03</span>
+          <h3 class="h3">We know how each format behaves</h3>
+          <div class="body">
+            <p>
+              The team understands how every kind of ad works in the public eye
+              — a detailer read in two minutes, a hoarding read in two seconds —
+              and tailors design and content to each.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Two practices</span></div>
+      <h2 class="h1"><Lines lines={["Health care and OTC"]} /></h2>
+      <div class="practices">
+        {practices.map((practice) => (
+          <article class="practice">
+            <div class="practice__strip">
+              {practice.pieces.map((piece) => (
+                <button
+                  class="proof"
+                  type="button"
+                  data-src={piece.src}
+                  data-caption={piece.alt}
+                  data-w={piece.w}
+                  data-h={piece.h}
+                  aria-label={`View larger: ${piece.alt}`}
+                >
+                  <img
+                    src={piece.src}
+                    alt={piece.alt}
+                    width={piece.w}
+                    height={piece.h}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              ))}
+            </div>
+            <h3 class="h3">{practice.title}</h3>
+            <p class="practice__count mono">{practice.count} pieces</p>
+            <p>{practice.copy}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Clients</span></div>
+      <h2 class="h1">{clientCount} brands</h2>
+
+      <p class="eyebrow" style="margin-top: 44px;">Health care</p>
+      <ClientWall items={clients.healthcare} />
+
+      <p class="eyebrow" style="margin-top: 44px;">OTC &amp; corporate</p>
+      <ClientWall items={clients.otc} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" data-reveal>
+      <div class="rule"><span class="mono">Next</span><RegMark live /></div>
+      <h2 class="h1"><Lines lines={["Talk to the director,", "not a queue."]} /></h2>
+      <div class="btns">
+        <a class="btn" href="/contact/">Start a brief</a>
+        <a class="btn btn--ghost" href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

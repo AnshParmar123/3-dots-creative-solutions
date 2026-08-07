@@ -1,0 +1,47 @@
+---
+const nav = [
+  ["Work", "/work/"],
+  ["Services", "/services/"],
+  ["Studio", "/about/"],
+];
+
+const path = Astro.url.pathname;
+---
+
+<header class="hdr">
+  <a class="hdr__brand" href="/">
+    <img class="hdr__logo brand-logo" src="/images/3dots-mark.png" alt="3DOTS Creative Solution" width="560" height="165" />
+  </a>
+
+  <nav class="hdr__nav" aria-label="Primary">
+    {nav.map(([label, href]) => (
+      <a href={href} aria-current={path === href ? "page" : undefined}>{label}</a>
+    ))}
+  </nav>
+
+  <a class="hdr__cta" href="/contact/">Start a brief</a>
+
+  <button class="hdr__toggle" type="button" aria-expanded="false" aria-controls="mnav" data-toggle>
+    Menu
+  </button>
+</header>
+
+<nav class="mnav" id="mnav" aria-label="Mobile" hidden>
+  {nav.map(([label, href]) => <a href={href}>{label}</a>)}
+  <a href="/contact/">Contact</a>
+</nav>
+
+<script is:inline>
+  (() => {
+    const toggle = document.querySelector("[data-toggle]");
+    const menu = document.getElementById("mnav");
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener("click", () => {
+      const open = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!open));
+      toggle.textContent = open ? "Menu" : "Close";
+      menu.hidden = open;
+    });
+  })();
+</script>
