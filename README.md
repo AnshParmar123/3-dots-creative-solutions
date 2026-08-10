@@ -9,6 +9,47 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # outputs to dist/
 npm run preview  # serve the built site
+npm run quality  # type-check Astro files, then build
+```
+
+## Validation
+
+Run the project check before pushing:
+
+```bash
+npm run quality
+```
+
+The visual interaction checks need a running local server:
+
+```bash
+npm run dev
+node scripts/verify.mjs
+node scripts/motion-check.mjs
+```
+
+## Sitemap
+
+`@astrojs/sitemap` is configured in `astro.config.mjs` and uses
+`https://3dotscreative.com` as the production site URL. The generated sitemap is
+created during `npm run build`, not during `npm run dev`.
+
+To verify it locally:
+
+```bash
+npm run build
+npm run preview
+```
+
+Then open:
+
+- `http://localhost:4321/sitemap-index.xml`
+- `http://localhost:4321/sitemap-0.xml`
+
+In production, submit this sitemap index:
+
+```text
+https://3dotscreative.com/sitemap-index.xml
 ```
 
 ## Before it goes live
