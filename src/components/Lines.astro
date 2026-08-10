@@ -2,6 +2,14 @@
 // Display type that rises from behind a mask, one line at a time.
 // Lines are authored explicitly so the stagger is deliberate rather than
 // whatever the browser happens to wrap to.
+type Line = string | { text: string; alt?: boolean };
+
+interface Props {
+  lines?: Line[];
+  class?: string;
+  delay?: number;
+}
+
 const { lines = [], class: className = "", delay = 0 } = Astro.props;
 ---
 

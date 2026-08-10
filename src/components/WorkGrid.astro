@@ -1,4 +1,12 @@
 ---
+import type { WorkItem } from "../data/site";
+
+interface Props {
+  items?: WorkItem[];
+  filters?: boolean;
+  eager?: number;
+}
+
 const { items = [], filters = false, eager = 0 } = Astro.props;
 
 const counts = {

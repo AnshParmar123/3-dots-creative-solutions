@@ -179,6 +179,8 @@ export const clients = {
 export const clientCount =
   clients.healthcare.length + clients.otc.length;
 
+export type ClientLogo = (typeof clients.healthcare)[number];
+
 type Work = { src: string; alt: string };
 
 export const healthcareWork: Work[] = [
@@ -277,6 +279,8 @@ export const allWork = (() => {
   }
   return merged;
 })();
+
+export type WorkItem = (typeof allWork)[number];
 
 const workBySlug = new Map(allWork.map((item) => [item.slug, item]));
 

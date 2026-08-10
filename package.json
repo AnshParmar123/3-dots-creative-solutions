@@ -7,7 +7,11 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test:ui": "node scripts/verify.mjs",
+    "test:motion": "node scripts/motion-check.mjs",
+    "quality": "npm run check && npm run build"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

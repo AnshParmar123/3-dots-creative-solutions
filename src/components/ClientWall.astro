@@ -1,4 +1,10 @@
 ---
+import type { ClientLogo } from "../data/site";
+
+interface Props {
+  items?: ClientLogo[];
+}
+
 const { items = [] } = Astro.props;
 ---
 

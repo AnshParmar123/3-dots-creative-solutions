@@ -2,7 +2,7 @@
 import Lines from "../components/Lines.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import RegMark from "../components/RegMark.astro";
-import { contact, piecesFor, serviceGroups } from "../data/site";
+import { piecesFor, serviceGroups } from "../data/site";
 
 const deliverables = serviceGroups.reduce(
   (total, group) => total + group.items.length,
