@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -11,6 +14,7 @@
     "check": "astro check",
     "test:ui": "node scripts/verify.mjs",
     "test:motion": "node scripts/motion-check.mjs",
+    "test:responsive": "node scripts/responsive-check.mjs",
     "quality": "npm run check && npm run build"
   },
   "dependencies": {

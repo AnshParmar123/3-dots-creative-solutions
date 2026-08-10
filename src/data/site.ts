@@ -26,10 +26,14 @@ export const contact = {
   whatsapp: "919869370124",
 };
 
-// Set this to a real endpoint before launch (Web3Forms, Formspree, Netlify
-// Forms all take a plain POST). While it is empty the brief form falls back to
-// opening the visitor's mail client, which is unreliable — see README.
-export const formEndpoint = "";
+// The brief form posts to Web3Forms, which is free and needs no account — get
+// an access key emailed to you at https://web3forms.com and paste it below.
+// That is the only step; the endpoint and fields are already wired.
+//
+// While the key is empty the form falls back to opening the visitor's mail
+// client, which silently fails for anyone on webmail. See README.
+export const formAccessKey = "";
+export const formEndpoint = "https://api.web3forms.com/submit";
 
 export const director = {
   name: "Awdhut Pandharinath Sawant",

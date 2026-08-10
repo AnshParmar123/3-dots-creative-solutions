@@ -1,8 +1,13 @@
 # 3DOTS Creative Solutions — website
 
 Static site built with [Astro](https://astro.build). No database, no server —
-it builds to plain HTML and can be hosted free on Netlify, Vercel or Cloudflare
-Pages.
+it builds to plain HTML.
+
+Deployed on **Vercel**, which auto-detects Astro (build `npm run build`, output
+`dist`). `vercel.json` only adds caching and a couple of security headers;
+Vercel already serves the hashed `/_astro/*` bundles as immutable on its own.
+Node is pinned to 24.x in `package.json` → `engines` and `.nvmrc`, because
+Vercel offers 24.x, 22.x and 20.x only.
 
 ```bash
 npm install
@@ -24,9 +29,15 @@ The visual interaction checks need a running local server:
 
 ```bash
 npm run dev
-node scripts/verify.mjs
-node scripts/motion-check.mjs
+node scripts/verify.mjs            # forms, lightbox, filters, nav, no-JS
+node scripts/motion-check.mjs      # load sequence, counters, parallax, FLIP
+node scripts/responsive-check.mjs  # layout at 12 widths, 320px to 1920px
 ```
+
+`responsive-check.mjs` walks every page at twelve viewports and fails on
+horizontal scroll, elements escaping the gutter, inconsistent `.wrap` gutters,
+or touch targets under 32px. It ignores overflow that an ancestor clips, so the
+deliberately oversized parallax hero does not register.
 
 ## Sitemap
 
@@ -54,32 +65,35 @@ https://3dotscreative.com/sitemap-index.xml
 
 ## Before it goes live
 
-Three things must be done, in this order.
+### 1. Make the brief form actually deliver — the one real blocker
 
-### 1. Point the site at the real domain
+`src/data/site.ts` → `formAccessKey` is empty, so the form falls back to
+opening the visitor's mail client, which silently fails for anyone on webmail.
 
-`astro.config.mjs` → `SITE`. This drives the sitemap, canonical URLs and the
-social share links. Also update the `Sitemap:` line in `public/robots.txt`.
-
-### 2. Make the brief form actually deliver
-
-`src/data/site.ts` → `formEndpoint`. It is empty right now, so the form falls
-back to opening the visitor's mail client — which silently fails for anyone on
-webmail. Any service that accepts a plain `POST` works; the form already sends
-the right field names and handles the response:
-
-- [Web3Forms](https://web3forms.com) — free, no account, paste the access key
-- [Formspree](https://formspree.io) — free tier, paste the form URL
-- Netlify Forms — if hosting on Netlify
+Get a free access key at [web3forms.com](https://web3forms.com) (no account —
+they email you a key), then paste it:
 
 ```ts
-export const formEndpoint = "https://api.web3forms.com/submit";
+export const formAccessKey = "a1b2c3d4-....";
 ```
 
-With Web3Forms also add a hidden `access_key` input to the form in
-`src/pages/contact.astro`.
+That is the whole change. The endpoint, the hidden `access_key` / `subject`
+fields, the honeypots and the success/error states are already wired, and the
+mailto fallback disappears automatically once the key is set.
+
+Netlify Forms is *not* an option here — it only works on Netlify.
 
 WhatsApp and the phone/email links work today and need no setup.
+
+### 2. Point the domain at Vercel
+
+`astro.config.mjs` → `SITE` is already set to `https://3dotscreative.com`, and
+`public/robots.txt` matches, so no code change is needed — this is a DNS job.
+
+**Careful:** the domain already has live mail (`MX 30 mx.3dotscreative.com`).
+If you move the nameservers to Vercel without recreating that MX record, email
+on the domain stops. Safer to leave DNS at GoDaddy and point only the apex `A`
+record and the `www` CNAME at Vercel.
 
 ### 3. Replace the artwork with originals
 

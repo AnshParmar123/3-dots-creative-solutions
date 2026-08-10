@@ -2,7 +2,11 @@
 import Lines from "../components/Lines.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import RegMark from "../components/RegMark.astro";
-import { contact, formEndpoint } from "../data/site";
+import { contact, formEndpoint, formAccessKey } from "../data/site";
+
+// Without an access key there is nothing to post to, so the form keeps the
+// mailto fallback instead of firing a request that would only 400.
+const formActive = Boolean(formAccessKey);
 
 const mapQuery = encodeURIComponent(contact.address.join(", "));
 const waText = encodeURIComponent(
@@ -103,9 +107,18 @@ const waText = encodeURIComponent(
           class="form"
           data-brief
           method="POST"
-          action={formEndpoint || undefined}
+          action={formActive ? formEndpoint : undefined}
           novalidate
         >
+          {formActive && (
+            <>
+              <input type="hidden" name="access_key" value={formAccessKey} />
+              <input type="hidden" name="subject" value="New brief from the 3DOTS website" />
+              <input type="hidden" name="from_name" value="3DOTS website" />
+              {/* Web3Forms' own honeypot, for visitors with JavaScript off. */}
+              <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" aria-hidden="true" />
+            </>
+          )}
           <label>
             <span>Your name</span>
             <input name="name" autocomplete="name" required />
@@ -140,7 +153,7 @@ const waText = encodeURIComponent(
     </div>
   </section>
 
-  <script is:inline define:vars={{ email: contact.email, endpoint: formEndpoint }}>
+  <script is:inline define:vars={{ email: contact.email, endpoint: formActive ? formEndpoint : "" }}>
     (() => {
       const form = document.querySelector("[data-brief]");
       if (!form) return;

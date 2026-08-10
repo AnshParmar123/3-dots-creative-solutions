@@ -578,9 +578,17 @@ img {
   font-family: var(--mono);
   font-size: 0.74rem;
   gap: 10px;
+  justify-content: center;
   letter-spacing: 0.12em;
+  /* Some buttons carry the email address as their label, which is wider than
+     a 320px phone. Cap them to the column and let the label wrap rather than
+     spill past the gutter. min-height still governs single-line buttons, so
+     the vertical padding changes nothing until a label actually wraps. */
+  max-width: 100%;
   min-height: 50px;
-  padding: 0 22px;
+  overflow-wrap: anywhere;
+  padding: 12px 22px;
+  text-align: center;
   text-decoration: none;
   text-transform: uppercase;
   transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), background 200ms ease;
@@ -1113,6 +1121,10 @@ img {
 
 .cx__block {
   border-top: 1px solid var(--line);
+  /* Grid items floor at min-content by default, and the email address is one
+     unbreakable 342px token — without this the whole column refuses to shrink
+     below it and the contact page overflows on a phone. */
+  min-width: 0;
   padding-top: 20px;
 }
 
@@ -1129,6 +1141,7 @@ img {
   letter-spacing: -0.02em;
   line-height: 1.28;
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .cx__val a {
@@ -1497,6 +1510,24 @@ img {
   }
 }
 
+/* Text links sit at 18-23px tall, which is under the 44px comfortable-touch
+   floor. Give them room on touch devices only, so the desktop rhythm of the
+   footer and the contact column is untouched. */
+@media (pointer: coarse) {
+  .hdr__brand,
+  .ftr__col a,
+  .ftr__base a,
+  .cx__val a,
+  .cx__note a {
+    align-items: center;
+    display: inline-flex;
+    min-height: 44px;
+  }
+  .ftr__col {
+    gap: 0;
+  }
+}
+
 /* --- responsive ---------------------------------------------------------- */
 
 @media (max-width: 1200px) {
@@ -1556,6 +1587,15 @@ img {
 @media (max-width: 560px) {
   .grid {
     columns: 2;
+  }
+  /* Tighten the mono label enough that an email address still fits on one
+     line inside a button at 320px. */
+  .btn {
+    letter-spacing: 0.08em;
+    padding: 12px 16px;
+  }
+  .cx__val {
+    font-size: clamp(0.95rem, 4.6vw, 1.35rem);
   }
   .tile__cap {
     display: none;
