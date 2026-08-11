@@ -886,6 +886,13 @@ img {
   border-right: 1px solid color-mix(in srgb, var(--ink) 11%, transparent);
   display: flex;
   justify-content: center;
+  /* Clip the scale-up hover transform at the cell edge, and prevent any
+     logo image that is wider than its cell from pushing the grid wider.
+     Several logos have a very wide natural aspect ratio (e.g. Edelweiss
+     640×110px ≈ 5.8:1) and without overflow:hidden they overflow in Safari,
+     which does not shrink replaced elements below min-content the way
+     Chromium does. */
+  overflow: hidden;
   padding: clamp(14px, 2vw, 26px);
 }
 
@@ -894,7 +901,11 @@ img {
 }
 
 .logos img {
+  /* max-width prevents very wide logos (e.g. Edelweiss 640×110) from
+     rendering at their natural width — 640px — inside a ~220px cell.
+     Without this, Safari does not shrink them and the grid overflows. */
   max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
   transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
   width: auto;
