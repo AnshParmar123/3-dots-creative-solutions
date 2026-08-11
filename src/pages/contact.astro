@@ -2,7 +2,7 @@
 import Lines from "../components/Lines.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import RegMark from "../components/RegMark.astro";
-import { contact, formEndpoint, formAccessKey } from "../data/site";
+import { contact, formEndpoint, formAccessKey, director } from "../data/site";
 
 // Without an access key there is nothing to post to, so the form keeps the
 // mailto fallback instead of firing a request that would only 400.
@@ -101,6 +101,21 @@ const waText = encodeURIComponent(
             <li><span>02</span>The director calls you back, usually same day</li>
             <li><span>03</span>You get a scope and a quote before any work starts</li>
           </ol>
+
+          <div class="brief__recipient">
+            <img
+              src={director.photo.src}
+              width={director.photo.w}
+              height={director.photo.h}
+              alt={director.name}
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="brief__recipient-text">
+              <p class="brief__recipient-name">{director.name}</p>
+              <p class="brief__recipient-role">reads every brief personally</p>
+            </div>
+          </div>
         </div>
 
         <form
