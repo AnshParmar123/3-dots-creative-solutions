@@ -38,11 +38,11 @@
     }
 
     /* ---- 3. counting stats ------------------------------------------ */
+    // The markup carries the real number, so with JS off or reduced motion on
+    // the stat is already correct and there is nothing to do. The animation
+    // zeroes it at setup and ticks back up to the same value.
     const counters = document.querySelectorAll("[data-count]");
-    if (counters.length && reduced.matches) {
-      // Skip the animation but never leave the placeholder zero on screen.
-      counters.forEach((el) => (el.textContent = el.dataset.count));
-    } else if (counters.length) {
+    if (counters.length && !reduced.matches) {
       const run = (el) => {
         const target = Number(el.dataset.count);
         const duration = 1500;
@@ -67,9 +67,16 @@
             io.unobserve(entry.target);
           });
         },
-        { threshold: 0.6 },
+        // Any sliver of the number counts, plus a margin below the fold. The
+        // hero stat row lands on the fold line at common laptop heights — on a
+        // 720px viewport only ~13% of it shows — so the old 0.6 threshold never
+        // fired and the stats sat at zero until something else scrolled.
+        { threshold: 0, rootMargin: "0px 0px 20% 0px" },
       );
-      counters.forEach((el) => io.observe(el));
+      counters.forEach((el) => {
+        el.textContent = "0";
+        io.observe(el);
+      });
     }
 
     /* ---- 4. hero parallax ------------------------------------------- */

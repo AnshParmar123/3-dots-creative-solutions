@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /og-card/
 
-Sitemap: https://3dotscreative.com/sitemap-index.xml
+Sitemap: https://3dotscreativesolutions.in/sitemap-index.xml

@@ -42,7 +42,7 @@ deliberately oversized parallax hero does not register.
 ## Sitemap
 
 `@astrojs/sitemap` is configured in `astro.config.mjs` and uses
-`https://3dotscreative.com` as the production site URL. The generated sitemap is
+`https://3dotscreativesolutions.in` as the production site URL. The generated sitemap is
 created during `npm run build`, not during `npm run dev`.
 
 To verify it locally:
@@ -60,7 +60,7 @@ Then open:
 In production, submit this sitemap index:
 
 ```text
-https://3dotscreative.com/sitemap-index.xml
+https://3dotscreativesolutions.in/sitemap-index.xml
 ```
 
 ## Before it goes live
@@ -87,13 +87,15 @@ WhatsApp and the phone/email links work today and need no setup.
 
 ### 2. Point the domain at Vercel
 
-`astro.config.mjs` → `SITE` is already set to `https://3dotscreative.com`, and
+`astro.config.mjs` → `SITE` is already set to `https://3dotscreativesolutions.in`, and
 `public/robots.txt` matches, so no code change is needed — this is a DNS job.
 
-**Careful:** the domain already has live mail (`MX 30 mx.3dotscreative.com`).
-If you move the nameservers to Vercel without recreating that MX record, email
-on the domain stops. Safer to leave DNS at GoDaddy and point only the apex `A`
-record and the `www` CNAME at Vercel.
+**Careful:** the domain has live mail — check the current `MX` records at the
+registrar before touching DNS (on the old `.com` this was `MX 30
+mx.3dotscreative.com`; confirm what `3dotscreativesolutions.in` actually uses).
+If you move the nameservers to Vercel without recreating those MX records,
+email on the domain stops. Safer to leave DNS at the registrar and point only
+the apex `A` record and the `www` CNAME at Vercel.
 
 ### 3. Replace the artwork with originals
 

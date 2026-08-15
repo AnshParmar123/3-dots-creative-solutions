@@ -52,10 +52,10 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
       </div>
 
       <div class="hero__meta hero__seq" style="--d: 980ms">
-        <div class="hero__stat"><b data-count-delay="1000" data-count="59">0</b><span>Pieces shipped</span></div>
-        <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>0</b><span>Client brands</span></div>
-        <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>0</b><span>Years in the room</span></div>
-        <div class="hero__stat"><b data-count-delay="1000" data-count="2">0</b><span>Practices</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count="59">59</b><span>Pieces shipped</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>{clientCount}</b><span>Client brands</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>{director.years}</b><span>Years in the room</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count="2">2</b><span>Practices</span></div>
       </div>
     </div>
   </section>
