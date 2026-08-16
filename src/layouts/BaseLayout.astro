@@ -4,6 +4,7 @@ import SiteFooter from "../components/SiteFooter.astro";
 import Lightbox from "../components/Lightbox.astro";
 import Motion from "../components/Motion.astro";
 import { contact } from "../data/site";
+import { SITE } from "../data/seo";
 import "../styles/global.css";
 
 const {
@@ -12,8 +13,8 @@ const {
     "3DOTS Creative Solutions is a Mumbai advertising agency for health care and OTC brands — big-agency craft at rates a growing brand can afford.",
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? "https://3dotscreativesolutions.in");
-const ogImage = new URL("/images/og.jpg", Astro.site ?? "https://3dotscreativesolutions.in");
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE);
+const ogImage = new URL("/images/og.jpg", Astro.site ?? SITE);
 
 // Helps Google show the studio as a local business rather than a bare page.
 const schema = {

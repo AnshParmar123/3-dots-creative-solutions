@@ -9,7 +9,13 @@ const strip = heroWall.slice(0, 12);
 ---
 
 <html lang="en">
-  <head><meta charset="UTF-8" /><title>OG card</title></head>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Belt and braces: robots.txt disallows this route, and a crawler that
+         reaches it anyway is told not to index it. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OG card</title>
+  </head>
   <body class="og">
     <div class="og__wall">
       {strip.map((src) => <img src={src} alt="" />)}

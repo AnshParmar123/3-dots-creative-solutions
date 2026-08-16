@@ -39,29 +39,57 @@ horizontal scroll, elements escaping the gutter, inconsistent `.wrap` gutters,
 or touch targets under 32px. It ignores overflow that an ancestor clips, so the
 deliberately oversized parallax hero does not register.
 
-## Sitemap
+## SEO: site config, sitemap, robots.txt
 
-`@astrojs/sitemap` is configured in `astro.config.mjs` and uses
-`https://3dotscreativesolutions.in` as the production site URL. The generated sitemap is
-created during `npm run build`, not during `npm run dev`.
+`src/data/seo.ts` is the single source of truth. It holds the production
+origin (`SITE`), the list of routes that must never be indexed
+(`HIDDEN_ROUTES`), and the AI crawlers named in robots.txt. The canonical tag,
+the sitemap and robots.txt all read from it, so **changing the domain is a
+one-line edit in that file** — nothing else hardcodes it.
 
-To verify it locally:
+### Sitemap — generated, never hand-edited
+
+`@astrojs/sitemap` scans every route under `src/pages` during `npm run build`
+(not `npm run dev`). **A new page is picked up automatically; there is no list
+to update.** Only real indexable pages get in:
+
+- `404` is excluded by the integration itself.
+- Routes in `HIDDEN_ROUTES` are excluded by the `filter` in `astro.config.mjs`.
+  Add a route there to hide it; `/og-card` is the only one today.
+- `robots.txt` is an endpoint, not a page, and is filtered out.
+
+The build writes `sitemap-index.xml` plus `sitemap-0.xml`, and a small
+`sitemap-alias` integration in `astro.config.mjs` copies the index to
+`sitemap.xml` — the URL robots.txt advertises and the one to submit to Search
+Console:
+
+```text
+https://3dotscreativesolutions.in/sitemap.xml
+```
+
+### robots.txt — generated, but the rules are static
+
+`src/pages/robots.txt.ts` renders it at build time. The rules themselves rarely
+change; it is generated so the `Sitemap:` line and the `Disallow` lines come
+from `seo.ts` instead of drifting from the rest of the config. There is no
+`public/robots.txt` — do not add one back, it would shadow the endpoint.
+
+It allows all crawlers, and additionally names the AI search/retrieval bots
+(`OAI-SearchBot`, `ChatGPT-User`, `ClaudeBot`, `Claude-SearchBot`,
+`PerplexityBot`) so the site stays eligible for citation in AI answers. Each
+named group repeats the disallows, because a named `User-agent` group replaces
+the `*` group outright rather than adding to it.
+
+### Verifying locally
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Then open:
-
-- `http://localhost:4321/sitemap-index.xml`
-- `http://localhost:4321/sitemap-0.xml`
-
-In production, submit this sitemap index:
-
-```text
-https://3dotscreativesolutions.in/sitemap-index.xml
-```
+Then check `http://localhost:4321/` at `/robots.txt`, `/sitemap.xml`,
+`/sitemap-index.xml` and `/sitemap-0.xml`. All four are real files in `dist/`,
+so what you see locally is exactly what deploys.
 
 ## Before it goes live
 
@@ -87,8 +115,9 @@ WhatsApp and the phone/email links work today and need no setup.
 
 ### 2. Point the domain at Vercel
 
-`astro.config.mjs` → `SITE` is already set to `https://3dotscreativesolutions.in`, and
-`public/robots.txt` matches, so no code change is needed — this is a DNS job.
+`src/data/seo.ts` → `SITE` is already set to `https://3dotscreativesolutions.in`,
+and the canonical tag, sitemap and robots.txt all derive from it, so no code
+change is needed — this is a DNS job.
 
 **Careful:** the domain has live mail — check the current `MX` records at the
 registrar before touching DNS (on the old `.com` this was `MX 30
