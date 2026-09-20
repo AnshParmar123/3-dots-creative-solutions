@@ -8,7 +8,6 @@ import { contact, formEndpoint, formAccessKey, director } from "../data/site";
 // mailto fallback instead of firing a request that would only 400.
 const formActive = Boolean(formAccessKey);
 
-const mapQuery = encodeURIComponent(contact.address.join(", "));
 const waText = encodeURIComponent(
   "Hello 3DOTS, I'd like to discuss a project for my brand.",
 );
@@ -68,7 +67,7 @@ const waText = encodeURIComponent(
           </address>
           <p class="cx__note">
             <a
-              href={`https://www.google.com/maps/search/?api=1&query=${mapQuery}`}
+              href={contact.maps}
               target="_blank"
               rel="noopener noreferrer"
             >Open in Maps →</a>

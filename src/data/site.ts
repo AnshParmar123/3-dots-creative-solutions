@@ -24,6 +24,7 @@ export const contact = {
   ],
   email: "creativesolution3dots@gmail.com",
   whatsapp: "919869370124",
+  maps: "https://maps.app.goo.gl/cdLJBS4bUxP98q9A9?g_st=iw",
 };
 
 // The brief form posts to Web3Forms, which is free and needs no account — get
