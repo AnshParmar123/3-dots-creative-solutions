@@ -14,9 +14,9 @@ export const contact = {
   name: "Awdhut P. Sawant",
   role: "Creative Director",
   address: [
-    "Swapnapurti CHSL, P-6, Flat-303",
-    "Nupur Nagar, Mira Road (E)",
-    "Thane 401107, Maharashtra, India",
+    "A-803, Raj Akshay, PDU Road",
+    "Pleasant Park, Near Don Bosco English School",
+    "Mira Road East, Thane 401107, Maharashtra, India",
   ],
   phones: [
     { display: "+91 98693 70124", href: "tel:+919869370124" },
@@ -54,7 +54,7 @@ export const director = {
   ],
 };
 
-// `evidence` lists portfolio slugs that genuinely demonstrate the group. Two
+// `evidence` lists portfolio slugs that genuinely demonstrate the group. Some
 // groups have no matching piece in the profile, so they carry none rather than
 // borrowing work that does not show them.
 export const serviceGroups = [
@@ -135,6 +135,17 @@ export const serviceGroups = [
       "hc-rebless",
       "hc-post-corona-care",
     ],
+  },
+  {
+    slug: "social-media-marketing",
+    title: "Social media marketing",
+    items: [
+      "Social media creatives",
+      "Campaign planning",
+      "Content calendars",
+      "Paid promotion support",
+    ],
+    evidence: [],
   },
   {
     slug: "press-and-film",
