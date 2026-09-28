@@ -8,15 +8,15 @@ import { allWork, contact, workSections } from "../../data/site";
 
 <BaseLayout
   title="Work — 3DOTS Creative Solutions"
-  description="59 pieces of health care and OTC advertising from 3DOTS Creative Solutions: detailers, packs, press ads, hoardings and public-interest campaigns."
+  description="Color portfolio of logo, packaging, OTC and health care creative work from 3DOTS Creative Solutions."
 >
   <section class="phero">
     <div class="wrap">
       <p class="eyebrow">Work · {allWork.length} pieces</p>
       <h1 class="display"><Lines lines={["Everything", "we have run."]} /></h1>
       <p class="lead">
-        {workSections[0].items.length} health care pieces and {workSections[1].items.length} for
-        OTC and corporate. Filter by practice, click any piece to open it.
+        Explore {workSections.map((section) => `${section.items.length} ${section.title.toLowerCase()}`).join(", ")} pieces.
+        Filter by category, then click any piece to see it full size.
       </p>
     </div>
   </section>

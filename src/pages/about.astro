@@ -8,8 +8,7 @@ import {
   clientCount,
   contact,
   director,
-  healthcareWork,
-  otcWork,
+  workSections,
   piecesFor,
 } from "../data/site";
 
@@ -17,32 +16,12 @@ const waText = encodeURIComponent(
   "Hello 3DOTS, I'd like to discuss a project for my brand.",
 );
 
-const practices = [
-  {
-    title: "Health care",
-    count: healthcareWork.length,
-    copy:
-      "Detailers, visual aids, leave-behinds, conference material and day campaigns for prescription brands. Built to survive a two-minute conversation with a doctor who has already heard the claim.",
-    pieces: piecesFor([
-      "hc-linmox",
-      "hc-macalvit",
-      "hc-es-ulcizone",
-      "hc-doctors-day",
-    ]),
-  },
-  {
-    title: "OTC & corporate",
-    count: otcWork.length,
-    copy:
-      "Press, packaging, outdoor and public-interest work for consumer brands, banks and institutions. Built for the shelf, the hoarding and the front page.",
-    pieces: piecesFor([
-      "otc-colgate-total",
-      "otc-bisleri",
-      "otc-maggi",
-      "otc-no-tobacco-day",
-    ]),
-  },
-];
+const practices = workSections.map((section) => ({
+  title: section.title,
+  count: section.items.length,
+  copy: section.blurb,
+  pieces: piecesFor(section.items.slice(0, 4).map((item) => item.src.split("/").pop()!.replace(".webp", ""))),
+}));
 ---
 
 <BaseLayout
@@ -159,8 +138,8 @@ const practices = [
 
   <section class="section">
     <div class="wrap" data-reveal>
-      <div class="rule"><span class="mono">Two practices</span></div>
-      <h2 class="h1"><Lines lines={["Health care and OTC"]} /></h2>
+      <div class="rule"><span class="mono">Portfolio</span></div>
+      <h2 class="h1"><Lines lines={["Creative across four categories"]} /></h2>
       <div class="practices">
         {practices.map((practice) => (
           <article class="practice">

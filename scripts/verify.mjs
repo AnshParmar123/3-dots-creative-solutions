@@ -43,12 +43,12 @@ const total = await p.locator('.tile').count();
 await p.locator('[data-filter="otc"]').click();
 await p.waitForTimeout(300);
 const shown = await p.locator('.tile:not(.is-hidden)').count();
-ok(`OTC filter narrows ${total}->${shown}`, shown === 31);
+ok(`OTC filter narrows ${total}->${shown}`, total === 65 && shown === 18);
 // lightbox should only cycle visible ones
 await p.locator('.tile:not(.is-hidden)').first().click();
 await p.waitForTimeout(400);
 const cap = await p.locator('[data-lb-cap]').textContent();
-ok('filtered lightbox starts on an OTC piece', /colgate|bisleri|maggi|hair|tobacco|unicef|triveni|medimix|surf|railway|treatabs|rin|bayliner|icici|kotak|ajit|bytco|cavi|ammonia|half|rumecin|mother|cosmetic|times|videocon|pizza|cockroach|india today/i.test(cap));
+ok('filtered lightbox starts on an OTC piece', /tobacco|pikolan|unicef|cockroach|colgate|hair|mother|dairy|india today|times|medimix|volini|clear|bisleri|corporate|railways|surf/i.test(cap));
 await p.close();
 
 // 4. Mobile nav

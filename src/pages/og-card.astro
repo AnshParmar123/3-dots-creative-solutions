@@ -2,7 +2,7 @@
 // Rendered once at 1200x630 and captured to /images/og.jpg by `og.mjs`.
 // Not linked from anywhere; kept in the repo so the card can be regenerated
 // if the branding changes.
-import { heroWall } from "../data/site";
+import { heroWall, workCount, clientCount } from "../data/site";
 import "../styles/global.css";
 
 const strip = heroWall.slice(0, 12);
@@ -25,8 +25,8 @@ const strip = heroWall.slice(0, 12);
     <div class="og__body">
       <span class="og__reg"><i></i><i></i><i></i></span>
       <p class="og__eyebrow">Mumbai · Health care &amp; OTC</p>
-      <h1 class="og__title">Big-agency work.<br /><em>Without the big agency.</em></h1>
-      <p class="og__foot">3DOTS Creative Solutions &nbsp;·&nbsp; 59 pieces &nbsp;·&nbsp; 15 brands</p>
+      <h1 class="og__title">Top-agency creative.<br /><em>Without the top-agency price.</em></h1>
+      <p class="og__foot">3DOTS Creative Solutions &nbsp;·&nbsp; {workCount} pieces &nbsp;·&nbsp; {clientCount} clients</p>
     </div>
   </body>
 </html>
