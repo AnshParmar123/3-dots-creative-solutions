@@ -12,16 +12,17 @@ import {
   contact,
   director,
   serviceGroups,
+  workCount,
 } from "../data/site";
 
 // Portrait pieces only, so the five-column masonry preview sits as a clean
 // block. The full portfolio page keeps every orientation.
-const preview = allWork.filter((item) => item.portrait).slice(0, 10);
+const preview = allWork.slice(0, 10);
 ---
 
 <BaseLayout
-  title="3DOTS Creative Solutions — Big-agency work, without the big agency"
-  description="A Mumbai advertising agency for health care and OTC brands. 59 campaigns, 15 clients, led by a creative director with 21 years at big agencies."
+  title="3DOTS Creative Solutions — Top-agency creative without the top-agency price"
+  description="3DOTS Creative Solutions delivers smart communication strategies, creative designs, and effective brand solutions for growing businesses."
 >
   <section class="hero">
     <HeroWall />
@@ -33,17 +34,17 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
         <Lines
           delay={340}
           lines={[
-            "Big-agency work.",
+            "Top-agency creative.",
             { text: "Without the", alt: true },
-            { text: "big agency.", alt: true },
+            { text: "top-agency price.", alt: true },
           ]}
         />
       </h1>
 
       <p class="lead hero__lead hero__seq" style="--d: 780ms">
-        3DOTS Creative Solutions makes the detailers, packs, press ads and
-        hoardings that growing brands need — at rates a growing brand can
-        actually carry.
+        3DOTS Creative Solutions delivers smart communication strategies,
+        creative designs, and effective brand solutions for growing
+        businesses without the big-agency costs.
       </p>
 
       <div class="btns hero__seq" style="--d: 880ms">
@@ -52,7 +53,7 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
       </div>
 
       <div class="hero__meta hero__seq" style="--d: 980ms">
-        <div class="hero__stat"><b data-count-delay="1000" data-count="59">59</b><span>Pieces shipped</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count={workCount}>{workCount}</b><span>Pieces shipped</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>{clientCount}</b><span>Client brands</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>{director.years}</b><span>Years in the room</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count="2">2</b><span>Practices</span></div>
@@ -85,9 +86,9 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
   <section class="section">
     <div class="wrap" data-reveal>
       <div class="rule"><span class="mono">Selected work</span><RegMark /></div>
-      <h2 class="h1"><Lines lines={["Ten of fifty-nine"]} /></h2>
+      <h2 class="h1"><Lines lines={[`Ten of ${workCount}`]} /></h2>
       <p class="lead">
-        Prescription detailers and consumer campaigns, from the same studio.
+        Brand identity, communication strategy, digital and web graphics, print and marketing collateral, packaging and merchandise.
         Click any piece to see it full size.
       </p>
     </div>
@@ -95,7 +96,7 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
     <div class="wrap" data-reveal>
       <WorkGrid items={preview} eager={4} />
       <div class="btns">
-        <a class="btn btn--ghost" href="/work/">All 59 pieces</a>
+        <a class="btn btn--ghost" href="/work/">All {workCount} pieces</a>
       </div>
     </div>
   </section>
@@ -103,7 +104,7 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
   <section class="section section--paper">
     <div class="wrap" data-reveal>
       <div class="rule"><span class="mono">Clients</span></div>
-      <h2 class="h1"><Lines lines={["Fifteen brands,", {text: "two practices", alt: true}]} /></h2>
+      <h2 class="h1"><Lines lines={[`${clientCount} clients,`, {text: "two practices", alt: true}]} /></h2>
 
       <p class="eyebrow" style="margin-top: 44px;">Health care</p>
       <ClientWall items={clients.healthcare} />
@@ -117,18 +118,18 @@ const preview = allWork.filter((item) => item.portrait).slice(0, 10);
     <div class="wrap dir" data-reveal>
       <div>
         <div class="rule"><span class="mono">The studio</span></div>
-        <h2 class="h1"><Lines lines={["One draughtsman,", "five disciplines"]} /></h2>
+        <h2 class="h1"><Lines lines={["Five disciplines.", "One creative vision."]} /></h2>
         <div class="body" style="margin-top: 26px;">
           <p>
-            {director.name} was trained as a civil engineer before he was trained
-            as an artist. He then added film direction, computer graphics and
-            photography to the pile.
+            This unusual combination shapes the way he approaches every project.
+            Ideas are structured like engineering, visualised like art, directed like
+            film, crafted through computer graphics, and captured through the eye of a photographer.
           </p>
           <p>
-            It is an unusual combination, and it shows up in the work: campaigns
-            that are built like structures, art-directed like film, and finished
-            like print.
+            The result is creative communication that is visually striking,
+            conceptually strong, technically precise and built to communicate.
           </p>
+          <p>One Creative Director. Five disciplines. One powerful creative approach.</p>
         </div>
         <div class="btns">
           <a class="btn btn--ghost" href="/about/">More about the studio</a>

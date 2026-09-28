@@ -8,7 +8,7 @@ const errs = [];
 const countedUp = async (page) => {
   try {
     await page.waitForFunction(
-      () => document.querySelector('[data-count="59"]')?.textContent === '59',
+      () => document.querySelector('[data-count="65"]')?.textContent === '65',
       null, { timeout: 6000 },
     );
     return true;
@@ -26,7 +26,7 @@ ok('headline starts masked', early !== 'none');
 ok('headline settles open', late === 'none' || late === 'matrix(1, 0, 0, 1, 0, 0)');
 ok('html gets is-loaded', await p.locator('html.is-loaded').count() === 1);
 
-ok('stat counted up to 59', await countedUp(p));
+ok('stat counted up to 65', await countedUp(p));
 
 const wallT = await p.locator('.hero__wall').evaluate(e=>getComputedStyle(e).transform);
 ok('wall pull-back finished', wallT === 'none' || wallT === 'matrix(1, 0, 0, 1, 0, 0)');
@@ -59,7 +59,7 @@ await p.waitForTimeout(1200);
 const stuck = await p.locator('.tile.is-moving').count();
 ok('FLIP cleans up after itself', stuck === 0);
 const hc = await p.locator('.tile:not(.is-hidden)').count();
-ok(`health-care filter -> ${hc}`, hc === 28);
+ok(`health-care filter -> ${hc}`, hc === 29);
 
 // Cursor
 await p.mouse.move(700, 600);
@@ -76,8 +76,8 @@ await p.goto('http://localhost:4321/', { waitUntil:'networkidle' });
 await p.waitForTimeout(500);
 const rm = await p.locator('.hero__title .ln > i').first().evaluate(e=>getComputedStyle(e).transform);
 ok('reduced-motion: headline not masked', rm === 'none' || rm === 'matrix(1, 0, 0, 1, 0, 0)');
-const rmStat = await p.locator('[data-count="59"]').textContent();
-ok('reduced-motion: stat shows final value', rmStat === '59');
+const rmStat = await p.locator('[data-count="65"]').textContent();
+ok('reduced-motion: stat shows final value', rmStat === '65');
 await p.close();
 
 ok('no JS errors anywhere', errs.length === 0);

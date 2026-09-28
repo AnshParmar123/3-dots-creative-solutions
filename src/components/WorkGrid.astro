@@ -9,24 +9,24 @@ interface Props {
 
 const { items = [], filters = false, eager = 0 } = Astro.props;
 
-const counts = {
-  all: items.length,
-  "health-care": items.filter((item) => item.category === "health-care").length,
-  otc: items.filter((item) => item.category === "otc").length,
-};
+const categories = [
+  { slug: "logo", label: "Logo" },
+  { slug: "packaging", label: "Packaging" },
+  { slug: "otc", label: "OTC" },
+  { slug: "health-care", label: "Health care" },
+];
 ---
 
 {filters && (
   <div class="filters" data-filters>
     <button class="filter" type="button" data-filter="all" aria-pressed="true">
-      Everything <b>{counts.all}</b>
+      Everything <b>{items.length}</b>
     </button>
-    <button class="filter" type="button" data-filter="health-care" aria-pressed="false">
-      Health care <b>{counts["health-care"]}</b>
-    </button>
-    <button class="filter" type="button" data-filter="otc" aria-pressed="false">
-      OTC <b>{counts.otc}</b>
-    </button>
+    {categories.map((category) => (
+      <button class="filter" type="button" data-filter={category.slug} aria-pressed="false">
+        {category.label} <b>{items.filter((item) => item.category === category.slug).length}</b>
+      </button>
+    ))}
   </div>
 )}
 

@@ -126,33 +126,25 @@ If you move the nameservers to Vercel without recreating those MX records,
 email on the domain stops. Safer to leave DNS at the registrar and point only
 the apex `A` record and the `www` CNAME at Vercel.
 
-### 3. Replace the artwork with originals
+### 3. Portfolio assets
 
-**This is the biggest remaining quality ceiling.** Every portfolio image was
-extracted from `3DOTS CS PROFILE 2.pdf`, where they are embedded as thumbnails.
-53 of the 59 are under 500px on the long edge (median 402px), so they are soft
-on a high-resolution screen. The lightbox deliberately refuses to upscale them
-past 1:1 for that reason.
-
-Ask the client for the original artwork. Drop the files into
-`public/images/work/` using the same filenames, then run:
-
-```bash
-node -e "require('child_process')" # see scripts/ note below
-npm run build
-```
-
-and regenerate `src/data/work-dimensions.ts` (it is a plain map of filename →
-`[width, height]`, used to reserve layout space so images do not cause shift).
+The client-supplied color samples from `creative samples.zip` replace the old
+profile thumbnails. They are grouped into Logo (9), Packaging (9), OTC (18),
+and Health care (29), for 65 pieces total. The web assets were resized to a
+maximum 1800px edge and saved as WebP. Keep the original ZIP as the source for
+future print or export needs. The client-supplied portrait and three new logos
+are also installed.
 
 ## Content
 
-All copy, contact details, client names and artwork come from the company
-profile PDF. Nothing is invented. `src/data/site.ts` is the single source of
-truth — editing it updates every page.
+The company profile supplies the baseline contact details and services. The
+client's updated brief supplies the homepage copy, client roster and new assets.
+`src/data/site.ts` holds the copy, portfolio categories and metadata used
+throughout the site. The `work-dimensions.ts` map records the intrinsic size of
+each optimized WebP file so images reserve layout space.
 
-Note: the profile is dated 2023 and states **21 years** of experience. Confirm
-with the client whether to update that number.
+The profile is dated 2023 and states **21 years** of experience. Confirm with
+the client whether to update that number.
 
 ## Structure
 
@@ -172,9 +164,8 @@ server running).
 
 ## Design notes
 
-Palette is sampled from the agency's own material: the cornflower blue is the
-hue the portfolio artwork is duotoned to (`#5070B0`), the teal is from the
-profile's section tabs (`#3FA69C`). Display face is Archivo at an expanded
+Palette draws on the agency profile: cornflower blue (`#5070B0`) and teal
+(`#3FA69C`). Portfolio images and the director portrait stay in color. Display face is Archivo at an expanded
 width for poster presence; IBM Plex Sans and Mono carry body and data.
 
 Accessibility floor: keyboard-operable lightbox and filters, visible focus

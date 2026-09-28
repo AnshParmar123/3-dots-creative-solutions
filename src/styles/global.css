@@ -6,7 +6,7 @@
 
 /* ==========================================================================
    3DOTS Creative Solutions — "Blueprint"
-   Palette sampled from the agency's own duotone artwork (hue 216–222) and
+   Palette draws on the agency profile (blue hue 216–222) and
    the teal used on the company profile's section tabs.
    ========================================================================== */
 
@@ -931,8 +931,7 @@ img {
   padding: clamp(24px, 3vw, 40px);
 }
 
-/* The photo is already duotoned to the deck's blue, so it needs no treatment
-   beyond a hairline and the same hover lift the work tiles use. */
+/* Keep the supplied director portrait in its original color. */
 .dir__photo {
   margin: 0;
   overflow: hidden;
