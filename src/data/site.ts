@@ -123,8 +123,6 @@ export const serviceGroups = [
     items: [
       "Social media creatives",
       "Campaign planning",
-      "Content calendars",
-      "Paid promotion support",
     ],
     evidence: [],
   },
