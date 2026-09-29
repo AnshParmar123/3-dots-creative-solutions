@@ -56,7 +56,7 @@ const preview = allWork.slice(0, 10);
         <div class="hero__stat"><b data-count-delay="1000" data-count={workCount}>{workCount}</b><span>Pieces shipped</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>{clientCount}</b><span>Client brands</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>{director.years}</b><span>Years in the room</span></div>
-        <div class="hero__stat"><b data-count-delay="1000" data-count="2">2</b><span>Practices</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count="4">4</b><span>Categories</span></div>
       </div>
     </div>
   </section>
@@ -104,7 +104,7 @@ const preview = allWork.slice(0, 10);
   <section class="section section--paper">
     <div class="wrap" data-reveal>
       <div class="rule"><span class="mono">Clients</span></div>
-      <h2 class="h1"><Lines lines={[`${clientCount} clients,`, {text: "two practices", alt: true}]} /></h2>
+      <h2 class="h1"><Lines lines={[`${clientCount} clients,`, {text: "four categories", alt: true}]} /></h2>
 
       <p class="eyebrow" style="margin-top: 44px;">Health care</p>
       <ClientWall items={clients.healthcare} />
