@@ -1084,6 +1084,20 @@ img {
   text-transform: uppercase;
 }
 
+.svc__social {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 38rem;
+}
+
+.svc__social p {
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
 .svc:hover {
   background: color-mix(in srgb, var(--blue) 6%, transparent);
 }
