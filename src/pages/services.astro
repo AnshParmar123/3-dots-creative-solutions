@@ -67,6 +67,11 @@ const groups = serviceGroups.map((group) => ({
                   </button>
                 ))}
               </div>
+            ) : group.slug === "social-media-marketing" ? (
+              <div class="svc__social">
+                <p>Brand-led social creatives and campaign ideas made to connect with your audience.</p>
+                <a class="btn btn--ghost" href="/contact/">Let's plan your campaign</a>
+              </div>
             ) : (
               <p class="svc__none">On request — ask for samples.</p>
             )}
