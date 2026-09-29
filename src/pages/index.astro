@@ -56,7 +56,7 @@ const preview = allWork.slice(0, 10);
         <div class="hero__stat"><b data-count-delay="1000" data-count={workCount}>{workCount}</b><span>Pieces shipped</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={clientCount}>{clientCount}</b><span>Client brands</span></div>
         <div class="hero__stat"><b data-count-delay="1000" data-count={director.years}>{director.years}</b><span>Years in the room</span></div>
-        <div class="hero__stat"><b data-count-delay="1000" data-count="4">4</b><span>Categories</span></div>
+        <div class="hero__stat"><b data-count-delay="1000" data-count="4">4</b><span>Work categories</span></div>
       </div>
     </div>
   </section>
@@ -91,6 +91,7 @@ const preview = allWork.slice(0, 10);
         Brand identity, communication strategy, digital and web graphics, print and marketing collateral, packaging and merchandise.
         Click any piece to see it full size.
       </p>
+      <p class="eyebrow" style="margin-top: 24px;">Explore four work categories: Logo · Packaging · OTC · Health care</p>
     </div>
 
     <div class="wrap" data-reveal>
@@ -104,7 +105,7 @@ const preview = allWork.slice(0, 10);
   <section class="section section--paper">
     <div class="wrap" data-reveal>
       <div class="rule"><span class="mono">Clients</span></div>
-      <h2 class="h1"><Lines lines={[`${clientCount} clients,`, {text: "four categories", alt: true}]} /></h2>
+      <h2 class="h1"><Lines lines={[`${clientCount} clients,`, {text: "two sectors", alt: true}]} /></h2>
 
       <p class="eyebrow" style="margin-top: 44px;">Health care</p>
       <ClientWall items={clients.healthcare} />
