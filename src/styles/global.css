@@ -1394,6 +1394,21 @@ img {
   line-height: 1.6;
 }
 
+.ftr__map {
+  margin: 10px 0 0;
+}
+
+.ftr__map a {
+  color: var(--muted);
+  font-size: 0.86rem;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.ftr__map a:hover {
+  color: var(--teal);
+}
+
 .ftr__col {
   display: grid;
   gap: 9px;

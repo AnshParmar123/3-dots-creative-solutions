@@ -14,6 +14,9 @@ const year = new Date().getFullYear();
         <address>
           {contact.address.map((line) => <span>{line}</span>)}
         </address>
+        <p class="ftr__map">
+          <a href={contact.maps} target="_blank" rel="noopener noreferrer">Open in Maps →</a>
+        </p>
       </div>
 
       <div class="ftr__col">

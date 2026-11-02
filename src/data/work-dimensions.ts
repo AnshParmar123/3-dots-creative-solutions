@@ -18,6 +18,7 @@ export const workDimensions: Record<string, [number, number]> = {
   "packaging-07": [1496, 1051],
   "packaging-08": [1536, 1024],
   "packaging-09": [819, 1800],
+  "packaging-10": [1492, 1054],
   "otc-01": [1055, 1491],
   "otc-02": [1426, 1103],
   "otc-03": [1426, 1103],

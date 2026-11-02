@@ -77,7 +77,7 @@ export const serviceGroups = [
       "Packaging design",
       "Brand and event logo design",
     ],
-    evidence: ["logo-01", "packaging-03", "packaging-04", "packaging-08"],
+    evidence: ["packaging-10", "logo-01", "packaging-03", "packaging-04", "packaging-08"],
   },
   {
     slug: "stationery",
@@ -196,6 +196,7 @@ export const packagingWork: Work[] = [
   { src: "/images/work/packaging-07.webp", alt: 'Cavisan toothpaste product packaging' },
   { src: "/images/work/packaging-08.webp", alt: 'Treatos mango and guava pulp packaging' },
   { src: "/images/work/packaging-09.webp", alt: 'Tic Tac product packaging' },
+  { src: "/images/work/packaging-10.webp", alt: 'Cavique, Cavidine and Cavimus oral care packaging range' },
 ];
 
 export const otcWork: Work[] = [
