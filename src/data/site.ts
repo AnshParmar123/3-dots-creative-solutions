@@ -199,6 +199,12 @@ export const packagingWork: Work[] = [
   { src: "/images/work/packaging-10.webp", alt: 'Cavique, Cavidine and Cavimus oral care packaging range' },
 ];
 
+export const exhibitionWork: Work[] = [
+  { src: "/images/work/exhibition-01.webp", alt: 'Westin Resins exhibition stall design' },
+  { src: "/images/work/exhibition-02.webp", alt: 'International Industrial Springs exhibition stall design' },
+  { src: "/images/work/exhibition-03.webp", alt: 'Malu Engineers exhibition stall design' },
+];
+
 export const otcWork: Work[] = [
   { src: "/images/work/otc-01.webp", alt: 'World No Tobacco Day campaign' },
   { src: "/images/work/otc-02.webp", alt: 'Pikolan fans advertising concept' },
@@ -261,11 +267,12 @@ function decorate(item: Work, category: string, categoryLabel: string) {
 export const workSections = [
   { slug: "logo", title: "Logo", blurb: "Brand identities and logo applications", items: logoWork },
   { slug: "packaging", title: "Packaging", blurb: "Packs and product presentation", items: packagingWork },
+  { slug: "exhibition", title: "Exhibition", blurb: "Stall designs and trade-show presence", items: exhibitionWork },
   { slug: "otc", title: "OTC", blurb: "Consumer campaigns and corporate communication", items: otcWork },
   { slug: "health-care", title: "Health care", blurb: "Pharma and health care communication", items: healthcareWork },
 ];
 
-// Round robin across all four categories so the homepage and hero show the range.
+// Round robin across all categories so the homepage and hero show the range.
 export const allWork = (() => {
   const sections = workSections.map((section) =>
     section.items.map((item) => decorate(item, section.slug, section.title))
