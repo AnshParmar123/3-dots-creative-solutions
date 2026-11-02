@@ -249,7 +249,6 @@ export const healthcareWork: Work[] = [
   { src: "/images/work/health-care-20.webp", alt: 'Mental health awareness poster' },
   { src: "/images/work/health-care-21.webp", alt: 'Cardiology conference creative' },
   { src: "/images/work/health-care-22.webp", alt: 'Skin repair detailer' },
-  { src: "/images/work/health-care-23.webp", alt: 'Truderma sunscreen campaign' },
   { src: "/images/work/health-care-24.webp", alt: 'Alzheimer’s patient campaign' },
   { src: "/images/work/health-care-25.webp", alt: 'Collagen backbone campaign' },
   { src: "/images/work/health-care-26.webp", alt: 'Children’s health product concept' },

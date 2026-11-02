@@ -62,7 +62,6 @@ export const workDimensions: Record<string, [number, number]> = {
   "health-care-20": [1273, 1800],
   "health-care-21": [1269, 1800],
   "health-care-22": [1259, 1800],
-  "health-care-23": [1800, 1269],
   "health-care-24": [1103, 1426],
   "health-care-25": [1254, 1254],
   "health-care-26": [1536, 1024],
